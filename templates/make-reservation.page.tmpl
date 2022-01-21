@@ -5,15 +5,23 @@
     <div class="row">
       <div class="col">
         <h1>Make reservation</h1>
+        <p><strong>Reservation Details</strong></p>
 
-        <form method="post" action="" class="needs-validation" novalidate>
+        {{$res := index .Data "reservation"}}
+        <form method="post" action="" class="" novalidate>
+          <input type="hidden" name="csrf_token" value="{{.CSRFToken}}" />
+
           <div class="form-group mt-5">
             <label for="first_name">First name:</label>
+            {{with .Form.Errors.Get "first_name"}}
+              <label class="text-danger">{{.}}</label>
+            {{end}}
             <input
               type="text"
               name="first_name"
+              value="{{$res.FirstName}}"
               id="first_name"
-              class="form-control"
+              class="form-control {{with .Form.Errors.Get "first_name"}} is-invalid {{end}}"
               required
               autocomplete="off"
             />
@@ -21,11 +29,15 @@
 
           <div class="form-group">
             <label for="last_name">Last name:</label>
+            {{with .Form.Errors.Get "last_name"}}
+              <label class="text-danger">{{.}}</label>
+            {{end}}
             <input
               type="text"
               name="last_name"
+              value="{{$res.LastName}}"
               id="last_name"
-              class="form-control"
+              class="form-control {{with .Form.Errors.Get "last_name"}} is-invalid {{end}}"
               required
               autocomplete="off"
             />
@@ -33,11 +45,15 @@
 
           <div class="form-group">
             <label for="email">Email:</label>
+            {{with .Form.Errors.Get "email"}}
+              <label class="text-danger">{{.}}</label>
+            {{end}}
             <input
               type="email"
               name="email"
+              value="{{$res.Email}}"
               id="email"
-              class="form-control"
+              class="form-control {{with .Form.Errors.Get "email"}} is-invalid {{end}}"
               required
               autocomplete="off"
             />
@@ -45,12 +61,15 @@
 
           <div class="form-group">
             <label for="phone">Phone number:</label>
+            {{with .Form.Errors.Get "phone"}}
+              <label class="text-danger">{{.}}</label>
+            {{end}}
             <input
               type="text"
               name="phone"
+              value="{{$res.Phone}}"
               id="phone"
-              class="form-control"
-              required
+              class="form-control {{with .Form.Errors.Get "phone"}} is-invalid {{end}}"
               autocomplete="off"
             />
           </div>
