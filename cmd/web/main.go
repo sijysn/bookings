@@ -5,11 +5,13 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/alexedwards/scs/v2"
 	"github.com/sijysn/bookings/internal/config"
 	"github.com/sijysn/bookings/internal/handlers"
+	"github.com/sijysn/bookings/internal/helpers"
 	"github.com/sijysn/bookings/internal/models"
 	"github.com/sijysn/bookings/internal/render"
 )
@@ -18,6 +20,8 @@ const portNumber = ":8080"
 
 var app config.AppConfig
 var session *scs.SessionManager
+var infoLog *log.Logger
+var errorLog *log.Logger
 
 // main is the main application function
 func main() {
@@ -52,6 +56,11 @@ func run() error {
 
 	app.Session = session
 
+	infoLog = log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
+	app.InfoLog = infoLog
+	errorLog = log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
+	app.ErrorLog = errorLog
+
 	tc, err := render.CreateTemplateCache()
 	if err != nil {
 		log.Fatal("cannot create template cache")
@@ -64,6 +73,7 @@ func run() error {
 	repo := handlers.NewRepo(&app)
 	handlers.NewHandlers(repo)
 	render.NewTemplates(&app)
+	helpers.NewHelpers(&app)
 	
 	return nil
 }
