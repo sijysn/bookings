@@ -1,3 +1,5 @@
 *.idea
 *.DS_Store
 *.out
+database.yml
+migrations/schema.sql
