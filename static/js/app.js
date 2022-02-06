@@ -63,12 +63,6 @@ function Prompt() {
           c.didOpen();
         }
       },
-      preConfirm: () => {
-        return [
-          document.getElementById("start").value,
-          document.getElementById("end").value,
-        ];
-      },
     });
 
     if (result) {
@@ -134,7 +128,6 @@ function show_availability(csrf_token, room_id) {
       formData.append("csrf_token", csrf_token);
       formData.append("room_id", room_id.toString());
 
-      console.log("dddd");
       fetch("/search-availability-json", {
         method: "post",
         body: formData,
